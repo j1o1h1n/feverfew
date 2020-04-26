@@ -1,0 +1,8 @@
+{
+  "padlock.unnamed": "Padlock must be named to lock a chest.",
+  "padlock.already.locked": "Chest has already locked.",
+  "break.locked.chest": "A magical flame bursts out of the chest.",
+  "padlock.success": "Chest locked with the padlock, \"%s\".",
+  "item.feverfew.padlock_item": "Padlock",
+  "item.feverfew.key_item": "Key"
+}

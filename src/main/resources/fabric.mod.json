@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "feverfew",
+  "version": "${version}",
+  "name": "Feverfew",
+  "description": "Padlocks for chests",
+  "authors": [
+    "John Lehmann"
+  ],
+  "contributors": [],
+  "contact": {
+    "homepage": "http://www.helianthi.com/feverfew/",
+    "sources": "https://github.com/j1o1h1n/feverfew"
+  },
+  "license": "MIT",
+  "icon": "assets/feverfew/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.helianthi.feverfew.FeverfewMod"
+    ],
+    "client": [],
+    "server": []
+  },
+  "mixins": [
+    "feverfew.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  }
+}
