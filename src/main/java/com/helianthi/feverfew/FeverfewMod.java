@@ -1,31 +1,15 @@
 package com.helianthi.feverfew;
 
+import com.helianthi.feverfew.items.KeyItem;
+import com.helianthi.feverfew.items.PadlockItem;
 import net.fabricmc.api.ModInitializer;
-
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
-import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.helianthi.feverfew.items.PadlockItem;
-import com.helianthi.feverfew.items.KeyItem;
 
 public class FeverfewMod implements ModInitializer {
 
@@ -40,11 +24,9 @@ public class FeverfewMod implements ModInitializer {
     @Override
     public void onInitialize() {
         log(Level.INFO, "Initializing " + MOD_NAME);
-        Registry.register(Registry.ITEM, new Identifier("feverfew", "padlock_item"), PADLOCK_ITEM);
-        Registry.register(Registry.ITEM, new Identifier("feverfew", "key_item"), KEY_ITEM);
-
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "padlock_item"), PADLOCK_ITEM);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "key_item"), KEY_ITEM);
         PadlockItem.initialise();
-
     }
 
     public static void log(Level level, String message){
