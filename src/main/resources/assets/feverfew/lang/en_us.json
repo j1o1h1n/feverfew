@@ -1,5 +1,6 @@
 {
   "padlock.unnamed": "Padlock must be named to lock a chest.",
+  "padlock.removed": "Padlock removed from chest.",
   "padlock.already.locked": "Chest has already locked.",
   "break.locked.chest": "A magical flame bursts out of the chest.",
   "padlock.success": "Chest locked with the padlock, \"%s\".",

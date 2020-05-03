@@ -9,7 +9,7 @@
   ],
   "contributors": [],
   "contact": {
-    "homepage": "http://www.helianthi.com/feverfew/",
+    "homepage": "http://www.helianthi.com/pages/mod-feverfew/",
     "sources": "https://github.com/j1o1h1n/feverfew"
   },
   "license": "MIT",
@@ -23,7 +23,6 @@
     "server": []
   },
   "mixins": [
-    "feverfew.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.4.0",
