@@ -1,9 +1,7 @@
 {
-  "padlock.unnamed": "Padlock must be named to lock a chest.",
-  "padlock.removed": "Padlock removed from chest.",
-  "padlock.already.locked": "Chest has already locked.",
-  "break.locked.chest": "A magical flame bursts out of the chest.",
-  "padlock.success": "Chest locked with the padlock, \"%s\".",
-  "item.feverfew.padlock_item": "Padlock",
-  "item.feverfew.key_item": "Key"
+  "padlock.unnamed": "Flint and Steel must be named to lock a chest.",
+  "padlock.removed": "The lock has been removed from the chest.",
+  "padlock.locked": "The chest is already locked.",
+  "padlock.success": "The chest has been locked.",
+  "padlock.break": "A magical flame bursts out of the chest."
 }
