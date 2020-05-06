@@ -100,6 +100,8 @@ public abstract class Padlock {
                 // a padlocked chest cannot be broken, but if the player has the right key the lock will come off
                 ItemStack stack = player.getMainHandStack();
                 if (stack.hasCustomName()
+                        && stack.getItem() != Items.FLINT_AND_STEEL
+                        && stack.getItem() != Items.AIR
                         && stack.getName().asString().equals(lockName)) {
                     tag.remove("Lock");
                     player.sendMessage(new LiteralText(PADLOCK_REMOVED), true);
