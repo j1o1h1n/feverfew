@@ -7,14 +7,17 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import org.apache.logging.log4j.Level;
 
 import static com.helianthi.feverfew.FeverfewMod.log;
@@ -31,11 +34,11 @@ import static com.helianthi.feverfew.FeverfewMod.log;
  */
 public abstract class Padlock {
 
-    public static String PADLOCK_UNNAMED = "padlock.unnamed";
-    public static String PADLOCK_REMOVED = "padlock.removed";
-    public static String PADLOCK_LOCKED = "padlock.locked";
-    public static String PADLOCK_SUCCESS = "padlock.success";
-    public static String PADLOCK_BREAK = "padlock.break";
+    public static String PADLOCK_UNNAMED = "Flint and Steel must be named to lock a chest.";
+    public static String PADLOCK_REMOVED = "The lock has been removed from the chest.";
+    public static String PADLOCK_LOCKED = "The chest is already locked.";
+    public static String PADLOCK_SUCCESS = "The chest has been locked.";
+    public static String PADLOCK_BREAK = "A magical flame bursts out of the chest.";
 
     public static void initialise() {
         UseBlockCallback.EVENT.register((player, world, hand, hitResult) -> {
@@ -49,13 +52,10 @@ public abstract class Padlock {
                 // else lock the chest and consume the lock
                 ItemStack stack = player.getMainHandStack();
                 if (!stack.hasCustomName()) {
-                    player.sendMessage(new TranslatableText(PADLOCK_UNNAMED), true);
+                    player.sendMessage(new LiteralText(PADLOCK_UNNAMED), true);
                     player.playSound(SoundEvents.BLOCK_DISPENSER_FAIL,
                             SoundCategory.BLOCKS, 1.0F, 1.0F);
                     return ActionResult.FAIL;
-                }
-                if (world.isClient) {
-                    return ActionResult.PASS;
                 }
                 BlockEntity blockEntity = world.getBlockEntity(hitResult.getBlockPos());
                 if (!(blockEntity instanceof ChestBlockEntity)) {
@@ -65,14 +65,14 @@ public abstract class Padlock {
                 CompoundTag tag = new CompoundTag();
                 blockEntity.toTag(tag);
                 if (tag.contains("Lock")) {
-                    player.sendMessage(new TranslatableText(PADLOCK_LOCKED), true);
+                    player.sendMessage(new LiteralText(PADLOCK_LOCKED), true);
                     return ActionResult.FAIL;
                 }
                 String lockName = stack.getName().getString();
                 tag.putString("Lock", lockName);
                 blockEntity.fromTag(blockEntity.getCachedState(), tag);
                 stack.decrement(1);
-                player.sendMessage(new TranslatableText(PADLOCK_SUCCESS, lockName), true);
+                player.sendMessage(new LiteralText(PADLOCK_SUCCESS), true);
                 player.playSound(SoundEvents.BLOCK_CHEST_LOCKED, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return ActionResult.FAIL;
             }
@@ -84,9 +84,6 @@ public abstract class Padlock {
                     && world.getBlockState(pos).getBlock() == Blocks.CHEST)
             {
                 // a locked chest cannot be broken, but if attacked with the key the lock will come off
-                if (world.isClient) {
-                    return ActionResult.PASS;
-                }
                 BlockEntity blockEntity = world.getBlockEntity(pos);
                 if (!(blockEntity instanceof ChestBlockEntity)) {
                     // shouldn't happen
@@ -100,14 +97,13 @@ public abstract class Padlock {
                 }
                 String lockName = tag.getString("Lock");
 
-                // a padlocked chest cannot be broken, but if the player has the right key, the lock will come off
+                // a padlocked chest cannot be broken, but if the player has the right key the lock will come off
                 ItemStack stack = player.getMainHandStack();
                 if (stack.hasCustomName()
                         && stack.getName().asString().equals(lockName)) {
                     tag.remove("Lock");
-                    player.sendMessage(new TranslatableText(PADLOCK_REMOVED), true);
+                    player.sendMessage(new LiteralText(PADLOCK_REMOVED), true);
                     blockEntity.fromTag(blockEntity.getCachedState(), tag);
-
                     // create Flint and Steel at the chest position
                     ItemStack padlock = new ItemStack(Items.FLINT_AND_STEEL);
                     ItemEntity itemEntity = new ItemEntity(player.world, pos.getX(), pos.getY(), pos.getZ(), padlock);
@@ -115,7 +111,7 @@ public abstract class Padlock {
                     return ActionResult.FAIL;
                 }
 
-                player.sendMessage(new TranslatableText(PADLOCK_BREAK), true);
+                player.sendMessage(new LiteralText(PADLOCK_BREAK), true);
                 player.damage(DamageSource.MAGIC, 5.0f);
                 player.setFireTicks(30);
                 player.playSound(SoundEvents.ENTITY_PLAYER_HURT_ON_FIRE, 1.0F, 1.0F);
